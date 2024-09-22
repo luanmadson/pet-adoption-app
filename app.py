@@ -43,3 +43,6 @@ def pet(pet_type, pet_id):
       <li><strong>Age:</strong> {pet['age']} years old</li>  <!-- Exibe a idade do pet -->
     </ul>
     '''
+
+if __name__ == '__main__':
+    app.run(debug=True)
