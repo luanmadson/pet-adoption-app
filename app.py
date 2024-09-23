@@ -1,12 +1,12 @@
-from flask import Flask  # Importa o framework Flask
-from helper import pets  # Importa o dicionário 'pets' do arquivo helper.py
+from flask import Flask  # Imports the Flask framework
+from helper import pets  # Imports the 'pets' dictionary from the helper.py file
 
-app = Flask(__name__)  # Cria uma instância do Flask, que será usada para configurar as rotas
+app = Flask(__name__)  # Creates an instance of Flask, which will be used to set up routes
 
-# Definindo a rota para a página inicial
+# Defining the route for the home page
 @app.route('/')
 def index():
-    # Retorna um HTML simples com links para as categorias de animais
+    # Returns a simple HTML with links to the pet categories
     return '''<h1>Adopt a Pet</h1>
               <p>Browse through the links below to find your new furry friend:</p>
               <ul>
@@ -16,33 +16,33 @@ def index():
               </ul>
            '''
 
-# Definindo a rota para exibir a lista de animais por tipo (ex: dogs, cats, rabbits)
-@app.route('/animals/<pet_type>')  # 'pet_type' será uma variável dinâmica na URL
+# Defining the route to display the list of animals by type (e.g., dogs, cats, rabbits)
+@app.route('/animals/<pet_type>')  # 'pet_type' will be a dynamic variable in the URL
 def animals(pet_type):
-    # Gera um HTML que lista todos os animais de um tipo específico
-    html = f'<h1>List of {pet_type}</h1>'  # Título com o tipo de animal
-    html += "<ul>"  # Abre uma lista não ordenada
-    # Itera sobre cada pet na lista de pets do tipo especificado
+    # Generates an HTML listing all pets of a specific type
+    html = f'<h1>List of {pet_type}</h1>'  # Title displaying the type of animal
+    html += "<ul>"  # Opens an unordered list
+    # Iterates through each pet in the list of pets of the specified type
     for index, pet in enumerate(pets[pet_type]):
-        # Adiciona um link para cada pet, com seu nome e índice como parte da URL
+        # Adds a link for each pet, including its name and index as part of the URL
         html += f'<li><a href="/animals/{pet_type}/{index}">{pet["name"]}</a></li>'
-    html += "</ul>"  # Fecha a lista
-    return html  # Retorna o HTML gerado
+    html += "</ul>"  # Closes the list
+    return html  # Returns the generated HTML
 
-# Definindo a rota para exibir o perfil individual de cada pet
-@app.route('/animals/<pet_type>/<int:pet_id>')  # 'pet_id' é o índice do pet na lista
+# Defining the route to display an individual pet's profile
+@app.route('/animals/<pet_type>/<int:pet_id>')  # 'pet_id' is the index of the pet in the list
 def pet(pet_type, pet_id):
-    pet = pets[pet_type][pet_id]  # Obtém o dicionário de informações do pet específico
-    # Gera um HTML para exibir as informações detalhadas do pet
+    pet = pets[pet_type][pet_id]  # Retrieves the dictionary containing the specific pet's information
+    # Generates an HTML page to display the detailed information about the pet
     return f'''
-    <h1>{pet['name']}</h1>  <!-- Exibe o nome do pet -->
-    <img src="{pet['url']}" alt="Image of {pet['name']}">  <!-- Exibe a imagem do pet -->
-    <p>{pet['description']}</p>  <!-- Descrição do pet -->
+    <h1>{pet['name']}</h1>  <!-- Displays the pet's name -->
+    <img src="{pet['url']}" alt="Image of {pet['name']}">  <!-- Displays the pet's image -->
+    <p>{pet['description']}</p>  <!-- Displays the pet's description -->
     <ul>
-      <li><strong>Breed:</strong> {pet['breed']}</li>  <!-- Exibe a raça do pet -->
-      <li><strong>Age:</strong> {pet['age']} years old</li>  <!-- Exibe a idade do pet -->
+      <li><strong>Breed:</strong> {pet['breed']}</li>  <!-- Displays the pet's breed -->
+      <li><strong>Age:</strong> {pet['age']} years old</li>  <!-- Displays the pet's age -->
     </ul>
     '''
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True)  # Runs the Flask app in debug mode
